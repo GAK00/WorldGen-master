@@ -42,6 +42,8 @@ public class Room
 
 	public void move(int[] direction)
 	{
+		
+
 		Dimension currentPos = getOccupyiedTile();
 		if (currentPos != null)
 		{
