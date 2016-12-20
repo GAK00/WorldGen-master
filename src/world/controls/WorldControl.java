@@ -4,22 +4,28 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import world.model.HealthBar;
 import world.model.Map;
+import world.view.WorldPanel;
 import world.view.gameFrame;
 
 public class WorldControl
 {
 	private Map map;
-	gameFrame frame;
+	private gameFrame frame;
 	public WorldControl()
 	{
+		
 		map = new Map(this);
+		map.getCurrentRoom().getTile(new Dimension(4, 4)).setInhabited(true);
+		
 	}
 	public void start()
 	{
-
-		map.getCurrentRoom().getTile(new Dimension(4, 4)).setInhabited(true);
 		frame = new gameFrame(this);
+		WorldPanel panel = (WorldPanel)frame.getPanel();
+		panel.Render();
+		
 	}
 	public Map getMap()
 	{
@@ -60,6 +66,13 @@ public class WorldControl
 	public JFrame getFrame()
 	{
 		return frame;
+	}
+	public HealthBar getHealthBar()
+	{
+		WorldPanel panel = 
+				(WorldPanel)
+				frame.getPanel();
+		return new HealthBar(panel.getRenderSize()[0],panel.getRenderSize()[1], 20, 18);
 	}
 	}
 

@@ -433,7 +433,6 @@ public class Rooms
 					currentTile = wall();
 				} else if (currentColor.getRGB() == Color.BLACK.getRGB())
 				{
-					System.out.println("handling door at " + x + "," + y);
 
 					if (x == 6)
 					{
@@ -441,7 +440,6 @@ public class Rooms
 					} else if (x == 0)
 					{
 						currentTile = leftDoor();
-						System.out.println("ok");
 					} else if (y == 6)
 					{
 						currentTile = downDoor();

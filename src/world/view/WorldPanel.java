@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 import world.controls.WorldControl;
+import world.model.HealthBar;
 import world.model.Map;
 import world.model.Room;
 
@@ -23,17 +24,21 @@ public class WorldPanel extends JPanel
 	private int xOffset;
 	private int yOffset;
 
-	public WorldPanel(WorldControl controller,int width, int heigth)
+	public WorldPanel(WorldControl controller, int width, int heigth)
 	{
 		super();
-		sized(width,heigth);
+		sized(width, heigth);
 		layout = new SpringLayout();
 
 		this.controller = controller;
-		this.worldView = new JLabel(roomToPicture(controller.getMap().getCurrentRoom()));
+		this.worldView = new JLabel();
 		worldView.setText("Health: 20");
 		setup();
 		setupListeners();
+	}
+	public void Render()
+	{
+		redraw(controller.getMap().getCurrentRoom());
 	}
 
 	private void setup()
@@ -55,7 +60,6 @@ public class WorldPanel extends JPanel
 			@Override
 			public void keyPressed(KeyEvent pressed)
 			{
-				
 
 				if (pressed.getKeyCode() == KeyEvent.VK_W)
 				{
@@ -119,10 +123,10 @@ public class WorldPanel extends JPanel
 
 							if ((x > block / 4 && x < (block * 3) / 4) && (y > block / 4 && y < (block * 3) / 4))
 							{
-								map.setRGB(((getX - 1) * block) + x+xOffset, ((getY - 1) * block) + y+yOffset, Color.red.getRGB());
+								map.setRGB(((getX - 1) * block) + x + xOffset, ((getY - 1) * block) + y + yOffset, Color.red.getRGB());
 							} else
 							{
-								map.setRGB(((getX - 1) * block) + x+xOffset, ((getY - 1) * block) + y+yOffset, currentColor.getRGB());
+								map.setRGB(((getX - 1) * block) + x + xOffset, ((getY - 1) * block) + y + yOffset, currentColor.getRGB());
 							}
 						}
 					}
@@ -132,15 +136,36 @@ public class WorldPanel extends JPanel
 					{
 						for (int y = 0; y < block; y++)
 						{
-							map.setRGB(((getX - 1) * block) + x+xOffset, ((getY - 1) * block) + y+yOffset, currentColor.getRGB());
+							map.setRGB(((getX - 1) * block) + x + xOffset, ((getY - 1) * block) + y + yOffset, currentColor.getRGB());
 						}
 					}
+				}
+			}
+		}
+		if (true)
+		{
+			HealthBar bar = controller.getHealthBar();
+			BufferedImage health = bar.render();
+			for (int x1 = 0; x1 < health.getWidth(); x1++)
+			{
+				for (int y1 = 0; y1 < health.getHeight(); y1++)
+				{
+					if (!HealthBar.isTransparent(new Color(health.getRGB(x1, y1))))
+					{
+						int width = map.getWidth()-1;
+						int drawx = width -((health.getWidth()-1)-x1);
+						int drawy = y1;
+						map.setRGB(drawx, drawy, health.getRGB(x1, y1));
+						
+					}
+
 				}
 			}
 		}
 		ImageIcon mapImage = new ImageIcon(map);
 		return mapImage;
 	}
+
 	public void redraw(Room room)
 	{
 		this.remove(worldView);
@@ -149,37 +174,43 @@ public class WorldPanel extends JPanel
 		this.repaint();
 		this.validate();
 	}
+
+	public int[] getRenderSize()
+	{
+		int[] size = { width, height };
+		return size;
+	}
+
 	public void resized(int width, int height)
 	{
 		this.width = width;
 		this.height = height;
-		if(width>height)
+		if (width > height)
 		{
-			this.blockSize = height/7;
-		}
-		else
+			this.blockSize = height / 7;
+		} else
 		{
-			this.blockSize = width/7;
+			this.blockSize = width / 7;
 		}
-		this.xOffset = (this.width-(this.blockSize*7))/2;
-		this.yOffset = (this.height-(this.blockSize*7))/2;
+		this.xOffset = (this.width - (this.blockSize * 7)) / 2;
+		this.yOffset = (this.height - (this.blockSize * 7)) / 2;
 		redraw(this.controller.getMap().getCurrentRoom());
-		
+
 	}
+
 	public void sized(int width, int height)
 	{
 		this.width = width;
 		this.height = height;
-		if(width>height)
+		if (width > height)
 		{
-			this.blockSize = height/7;
-		}
-		else
+			this.blockSize = height / 7;
+		} else
 		{
-			this.blockSize = width/7;
+			this.blockSize = width / 7;
 		}
-		this.xOffset = ((this.width-(this.blockSize*7))/2);
-		this.yOffset = ((this.height-(this.blockSize*7))/2);
-		
+		this.xOffset = ((this.width - (this.blockSize * 7)) / 2);
+		this.yOffset = ((this.height - (this.blockSize * 7)) / 2);
+
 	}
 }
