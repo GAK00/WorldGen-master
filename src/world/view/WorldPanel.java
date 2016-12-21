@@ -23,10 +23,12 @@ public class WorldPanel extends JPanel
 	private int blockSize;
 	private int xOffset;
 	private int yOffset;
+	private boolean displayHealth;
 
 	public WorldPanel(WorldControl controller, int width, int heigth)
 	{
 		super();
+		this.displayHealth = true;
 		sized(width, heigth);
 		layout = new SpringLayout();
 
@@ -36,6 +38,7 @@ public class WorldPanel extends JPanel
 		setup();
 		setupListeners();
 	}
+
 	public void Render()
 	{
 		redraw(controller.getMap().getCurrentRoom());
@@ -81,6 +84,24 @@ public class WorldPanel extends JPanel
 				{
 					int[] direction = { 0, 1 };
 					controller.getMap().getCurrentRoom().move(direction);
+				}
+				if (pressed.getKeyCode() == KeyEvent.VK_H)
+				{
+					if (displayHealth)
+					{
+						displayHealth = false;
+					} else
+					{
+						displayHealth = true;
+					}
+				}
+				if(pressed.getKeyCode() == KeyEvent.VK_R)
+				{
+					controller.increaseHealth();
+					if(controller.getMap().getCurrentRoom().isAmbush())
+					{
+						System.out.println("ambush!!!!");
+					}
 				}
 				redraw(controller.getMap().getCurrentRoom());
 
@@ -130,7 +151,40 @@ public class WorldPanel extends JPanel
 							}
 						}
 					}
-				} else
+					
+				}
+				else if (room.getTile(new Dimension(getX, getY)).gethasMonster())
+				{
+					Color color = Color.black;
+					if(room.getTile(new Dimension(getX, getY)).getMonsterType()==0)
+					{
+						color = Color.green;
+					}
+					if(room.getTile(new Dimension(getX, getY)).getMonsterType()==1)
+					{
+						color = Color.blue;
+					}
+					if(room.getTile(new Dimension(getX, getY)).getMonsterType()==2)
+					{
+						color = Color.ORANGE;
+					}
+					for (int x = 0; x < block; x++)
+					{
+						for (int y = 0; y < block; y++)
+						{
+
+							if ((x > block / 4 && x < (block * 3) / 4) && (y > block / 4 && y < (block * 3) / 4))
+							{
+								map.setRGB(((getX - 1) * block) + x + xOffset, ((getY - 1) * block) + y + yOffset, color.getRGB());
+							} else
+							{
+								map.setRGB(((getX - 1) * block) + x + xOffset, ((getY - 1) * block) + y + yOffset, currentColor.getRGB());
+							}
+						}
+					}
+					
+				}
+				else
 				{
 					for (int x = 0; x < block; x++)
 					{
@@ -142,7 +196,7 @@ public class WorldPanel extends JPanel
 				}
 			}
 		}
-		if (true)
+		if (displayHealth)
 		{
 			HealthBar bar = controller.getHealthBar();
 			BufferedImage health = bar.render();
@@ -152,11 +206,11 @@ public class WorldPanel extends JPanel
 				{
 					if (!HealthBar.isTransparent(new Color(health.getRGB(x1, y1))))
 					{
-						int width = map.getWidth()-1;
-						int drawx = width -((health.getWidth()-1)-x1);
+						int width = map.getWidth() - 1;
+						int drawx = width - ((health.getWidth() - 1) - x1);
 						int drawy = y1;
 						map.setRGB(drawx, drawy, health.getRGB(x1, y1));
-						
+
 					}
 
 				}

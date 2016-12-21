@@ -6,7 +6,7 @@ public class Floor extends Tile
 {
 	public Floor(Color color)
 	{
-		super(true, color, 0.5);
+		super(true, color, 0.35);
 	}
 	public Floor(Color color,double DangerLevel)
 	{

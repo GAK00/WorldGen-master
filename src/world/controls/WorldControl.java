@@ -13,11 +13,16 @@ public class WorldControl
 {
 	private Map map;
 	private gameFrame frame;
+	private int health;
+	private int maxHealth;
+	
 	public WorldControl()
 	{
 		
 		map = new Map(this);
 		map.getCurrentRoom().getTile(new Dimension(4, 4)).setInhabited(true);
+		health = 8;
+		maxHealth = 100;
 		
 	}
 	public void start()
@@ -72,7 +77,18 @@ public class WorldControl
 		WorldPanel panel = 
 				(WorldPanel)
 				frame.getPanel();
-		return new HealthBar(panel.getRenderSize()[0],panel.getRenderSize()[1], 20, 18);
+		return new HealthBar(panel.getRenderSize()[0],panel.getRenderSize()[1], maxHealth, health);
+	}
+	public void increaseHealth()
+	{
+		if(health+3 < maxHealth)
+		{
+			health +=3;
+		}
+		else
+		{
+			health = maxHealth;
+		}
 	}
 	}
 

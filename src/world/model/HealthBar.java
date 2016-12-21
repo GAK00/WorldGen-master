@@ -7,7 +7,6 @@ public class HealthBar
 {
 	private int width;
 	private int height;
-	private int currentHealth;
 	private Color color;
 	private int colorDraw;
 	private int borderWidth;
@@ -16,21 +15,20 @@ public class HealthBar
 
 	public HealthBar(int width, int height, int maxHealth, int health)
 	{
-		transparent = Color.blue;
-		this.width = (width / 100) * maxHealth;
+		transparent = Color.white;
+		this.width = (width / (maxHealth*3)) * maxHealth;
 		borderWidth = this.width / 8;
 		if (borderWidth == 0)
 		{
 			borderWidth = 1;
 		}
-		colorDraw = (width / 100) * health;
+		colorDraw = (width /(maxHealth*3)) * health;
 		this.height = height / 25;
-		borderHeight = this.height / 8;
+		borderHeight = this.height / 4;
 		if (borderHeight == 0)
 		{
 			borderHeight = 1;
 		}
-		this.currentHealth = health;
 		double healthPercent = ((double) health / (double) maxHealth);
 		this.color = Color.RED;
 		if (Double.compare(healthPercent, .8) > 0)
@@ -48,10 +46,6 @@ public class HealthBar
 		BufferedImage healthBar = new BufferedImage(width + (borderWidth * 2), height + (borderHeight * 2), BufferedImage.TYPE_INT_ARGB);
 
 		drawBorder(healthBar);
-		System.out.println(healthBar.getHeight());
-		System.out.println(healthBar.getWidth());
-		System.out.println(width);
-		System.out.println(height);
 		for (int x = 0; x <width; x++)
 		{
 			for (int y = 0; y <= height; y++)

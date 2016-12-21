@@ -6,6 +6,6 @@ public class Wall extends Tile
 {
 	public Wall(Color color)
 	{
-		super(false, color, 0.5);
+		super(false, color, 0);
 	}
 }

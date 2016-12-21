@@ -98,6 +98,7 @@ public class Map
 	{
 		currentPos = newPosition;
 		this.currentRoom = this.getRoom(newPosition);
+		currentRoom.resetRest();
 	}
 
 	public Dimension getCurrentPos()
