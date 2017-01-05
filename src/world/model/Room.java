@@ -6,7 +6,7 @@ import java.util.Random;
 
 import world.controls.WorldControl;
 
-public class Room
+public class Room implements java.io.Serializable
 {
 	private ArrayList<Tile> interior;
 	private Dimension roomDimension;

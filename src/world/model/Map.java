@@ -6,9 +6,13 @@ import java.util.ArrayList;
 
 import world.controls.WorldControl;
 
-public class Map
+public class Map implements java.io.Serializable
 {
-	private Rooms rooms;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 420L;
+	private transient Rooms rooms;
 	private Room currentRoom;
 	private Dimension currentPos;
 	private Dimension size;
@@ -81,7 +85,6 @@ public class Map
 			
 		} catch (IOException e)
 		{
-			System.out.println("ahhh");
 			e.printStackTrace();
 		}
 
@@ -90,7 +93,6 @@ public class Map
 	private Room getRoom(Dimension currentPos)
 	{
 		int index = (int) ((currentPos.getWidth() - 1) * (size.getHeight()) + (currentPos.getHeight() - 1));
-		System.out.println(index);
 		return areas.get(index);
 	}
 

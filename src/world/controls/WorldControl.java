@@ -4,13 +4,18 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import world.model.FileHandler;
 import world.model.HealthBar;
 import world.model.Map;
 import world.view.WorldPanel;
 import world.view.gameFrame;
 
-public class WorldControl
+public class WorldControl implements java.io.Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 420L;
 	private Map map;
 	private gameFrame frame;
 	private int health;
@@ -18,12 +23,19 @@ public class WorldControl
 	
 	public WorldControl()
 	{
-		
+
+		FileHandler fh = new FileHandler();
+		if(fh.readMap()!=null)
+		{
+			System.out.println("all good");
+			map = fh.readMap();
+		}
+		else{
 		map = new Map(this);
 		map.getCurrentRoom().getTile(new Dimension(4, 4)).setInhabited(true);
+		}
 		health = 8;
 		maxHealth = 100;
-		
 	}
 	public void start()
 	{
@@ -65,7 +77,6 @@ public class WorldControl
 		Dimension next = new Dimension((int)(current.getWidth()+direction[0]),(int)(current.getHeight()+direction[1]));
 		map.setCurrentPos(next);
 		map.getCurrentRoom().clean();
-		System.out.println(spawnPoint);
 		map.getCurrentRoom().getTile(spawnPoint).setInhabited(true);
 	}
 	public JFrame getFrame()
@@ -89,6 +100,11 @@ public class WorldControl
 		{
 			health = maxHealth;
 		}
+	}
+	public void saveMap()
+	{
+		FileHandler fh = new FileHandler();
+		fh.writeMap(map);
 	}
 	}
 
