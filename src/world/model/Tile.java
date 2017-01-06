@@ -5,11 +5,6 @@ import java.util.Random;
 
 public abstract class Tile implements java.io.Serializable
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 420L;
 	private boolean isCrossable;
 	private Color tileColor;
 	private boolean isExit;

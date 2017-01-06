@@ -8,10 +8,6 @@ import world.controls.WorldControl;
 
 public class Map implements java.io.Serializable
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 420L;
 	private transient Rooms rooms;
 	private Room currentRoom;
 	private Dimension currentPos;

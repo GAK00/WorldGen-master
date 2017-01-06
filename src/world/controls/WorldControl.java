@@ -12,12 +12,8 @@ import world.view.gameFrame;
 
 public class WorldControl implements java.io.Serializable
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 420L;
 	private Map map;
-	private gameFrame frame;
+	private transient gameFrame frame;
 	private int health;
 	private int maxHealth;
 	
