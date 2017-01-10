@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import world.model.FileHandler;
 import world.model.HealthBar;
 import world.model.Map;
+import world.model.MiniMap;
 import world.view.WorldPanel;
 import world.view.gameFrame;
 
@@ -29,6 +30,7 @@ public class WorldControl implements java.io.Serializable
 		else{
 		map = new Map(this);
 		map.getCurrentRoom().getTile(new Dimension(4, 4)).setInhabited(true);
+		map.getCurrentRoom().entered();
 		}
 		health = 8;
 		maxHealth = 100;
@@ -38,6 +40,8 @@ public class WorldControl implements java.io.Serializable
 		frame = new gameFrame(this);
 		WorldPanel panel = (WorldPanel)frame.getPanel();
 		panel.Render();
+		MiniMap mini = new MiniMap(map,frame.getSize());
+		mini.render();
 		
 	}
 	public Map getMap()
@@ -74,6 +78,7 @@ public class WorldControl implements java.io.Serializable
 		map.setCurrentPos(next);
 		map.getCurrentRoom().clean();
 		map.getCurrentRoom().getTile(spawnPoint).setInhabited(true);
+		map.getCurrentRoom().entered();
 	}
 	public JFrame getFrame()
 	{

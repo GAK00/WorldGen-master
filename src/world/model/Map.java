@@ -42,7 +42,7 @@ public class Map implements java.io.Serializable
 			areas.add(rooms.getRoomFromTemplate("fourDoor.png"));
 			areas.add(rooms.getRoomFromTemplate("fourDoor.png"));
 			areas.add(rooms.getRoomFromTemplate("threeDoor.png"));
-			//row3
+			//row
 			areas.add(rooms.getRoomFromTemplate("straight90.png"));
 			areas.add(rooms.getRoomFromTemplate("DeadEnd270.png"));
 			areas.add(rooms.getRoomFromTemplate("threeDoor180.png"));
@@ -98,7 +98,13 @@ public class Map implements java.io.Serializable
 		this.currentRoom = this.getRoom(newPosition);
 		currentRoom.resetRest();
 	}
-
+	public Room getRoomFromDimensinon(Dimension dimension)
+	{
+		return this.getRoom(new Dimension(((int)dimension.getWidth()+1),((int)dimension.getHeight()+1)));
+	}
+	{
+		
+	}
 	public Dimension getCurrentPos()
 	{
 		return currentPos;
@@ -107,5 +113,8 @@ public class Map implements java.io.Serializable
 	public Room getCurrentRoom()
 	{
 		return currentRoom;
+	}
+	public Dimension getSize(){
+		return size;
 	}
 }

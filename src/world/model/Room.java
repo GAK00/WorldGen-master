@@ -14,6 +14,7 @@ public class Room implements java.io.Serializable
 	private double ambushChance;
 	private int restAmount;
 	private Random rand;
+	private boolean discovered;
 
 	public Room(ArrayList<Tile> interior, Dimension roomDimension,WorldControl control)
 	{
@@ -142,6 +143,18 @@ public class Room implements java.io.Serializable
 				}
 			}
 		}
+	}
+	
+	public void entered()
+	{
+		if(!discovered)
+		{
+			discovered = true;
+		}
+	}
+	public boolean isDiscovered()
+	{
+		return discovered;
 	}
 		
 	
